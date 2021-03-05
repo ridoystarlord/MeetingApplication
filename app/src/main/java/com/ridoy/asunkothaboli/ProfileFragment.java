@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
         dialog.show();
         progressDialog=new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Image Sending...");
+        progressDialog.setMessage("Image Updating...");
 
         firebaseFirestore.collection("Users").document(FirebaseAuth.getInstance().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

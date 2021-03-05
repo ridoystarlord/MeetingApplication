@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ridoy.asunkothaboli.databinding.ActivityLoginBinding;
 import com.ridoy.asunkothaboli.databinding.ActivitySignupBinding;
@@ -49,12 +50,12 @@ public class SignupActivity extends AppCompatActivity {
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        dialog.dismiss();
                         if (task.isSuccessful()) {
-                            User user = new User(name, email, password,"");
+                            User user = new User(name, email, password,"","1");
                             firebaseFirestore.collection("Users").document(mAuth.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    dialog.dismiss();
                                     Toast.makeText(SignupActivity.this, "Acccount Create Successful", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignupActivity.this,DashboardActivity.class));
                                     finishAffinity();
@@ -62,6 +63,7 @@ public class SignupActivity extends AppCompatActivity {
                             });
 
                         } else {
+                            dialog.dismiss();
                             Toast.makeText(SignupActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
@@ -81,7 +83,10 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        startActivity(new Intent(SignupActivity.this,DashboardActivity.class));
-        finishAffinity();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            startActivity(new Intent(SignupActivity.this,DashboardActivity.class));
+            finishAffinity();
+        }
     }
 }

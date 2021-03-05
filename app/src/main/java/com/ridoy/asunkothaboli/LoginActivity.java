@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         activityLoginBinding=ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
 
+
         getSupportActionBar().hide();
         mAuth=FirebaseAuth.getInstance();
         dialog=new ProgressDialog(this);

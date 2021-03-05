@@ -1,8 +1,10 @@
 package com.ridoy.asunkothaboli;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -56,5 +58,31 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        AlertDialog.Builder alertdialog;
+        alertdialog=new AlertDialog.Builder(DashboardActivity.this);
+        alertdialog.setIcon(R.drawable.ic_alert);
+        alertdialog.setTitle("Exit");
+        alertdialog.setMessage("Do You Want to Exit");
+        alertdialog.setCancelable(false);
+
+        alertdialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertdialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog=alertdialog.create();
+        alertDialog.show();
     }
 }
